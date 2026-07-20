@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Downloads and large ISO assets
+download/
+downloads/
+Downloads/
+*.iso20022
+*.zip
+
+# IDE
+.vscode/
