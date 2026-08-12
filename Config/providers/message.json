@@ -1,0 +1,13 @@
+{
+  "provider": "message",
+
+  "fields": {
+    "MsgId": {
+      "generator": "message_id"
+    },
+
+    "CreDtTm": {
+      "generator": "datetime"
+    }
+  }
+}

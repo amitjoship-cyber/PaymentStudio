@@ -1,0 +1,33 @@
+{
+  "DEFAULT": {
+    "identifier_scheme": "ACCOUNT",
+    "identifier_name": "Account Number",
+    "structured_address": false,
+    "postal_code_required": false,
+    "organisation_only": false
+  },
+
+  "INDIA": {
+    "identifier_scheme": "ACCOUNT",
+    "identifier_name": "Account Number",
+    "structured_address": false,
+    "postal_code_required": true,
+    "organisation_only": false
+  },
+
+  "SEPA": {
+    "identifier_scheme": "IBAN",
+    "identifier_name": "IBAN",
+    "structured_address": true,
+    "postal_code_required": true,
+    "organisation_only": false
+  },
+
+  "UPI": {
+    "identifier_scheme": "UPI",
+    "identifier_name": "Virtual Payment Address",
+    "structured_address": false,
+    "postal_code_required": false,
+    "organisation_only": false
+  }
+}

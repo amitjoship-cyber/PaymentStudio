@@ -1,14 +1,6 @@
 """
 Payment Studio
 Repository Scanner
-
-Scans the repository and discovers
-Business Areas
-Messages
-Versions
-XSD files
-
-Author: Payment Studio
 """
 
 from __future__ import annotations
@@ -36,48 +28,63 @@ class RepositoryScanner:
 
         self.repository_root = Path(repository_root)
 
+    # ----------------------------------------------------------
+
     def scan(self) -> Repository:
 
         repository = Repository(root_path=self.repository_root)
 
-        github_folder = (
-            self.repository_root
-            / "Sources"
-            / "GitHub"
-            / "ISO20022-Catalogue"
-            / "iso20022-schemas"
-        )
+        if not self.repository_root.exists():
 
-        if not github_folder.exists():
             return repository
 
-        for business_folder in sorted(github_folder.iterdir()):
+        for business_folder in sorted(self.repository_root.iterdir()):
 
             if not business_folder.is_dir():
+
                 continue
 
-            business = BusinessArea(code=business_folder.name.upper())
+            business = BusinessArea(
+                code=business_folder.name.upper(),
+            )
 
             messages = {}
 
             for xsd in sorted(business_folder.glob("*.xsd")):
 
-                match = self.MESSAGE_PATTERN.match(xsd.name)
+                match = self.MESSAGE_PATTERN.match(
+                    xsd.name,
+                )
 
                 if not match:
+
                     continue
 
-                area, message, version, revision = match.groups()
+                area, message_no, version, revision = match.groups()
 
-                message_id = f"{area}.{message}"
+                #
+                # Stable Message
+                #
+
+                message_id = f"{area}.{message_no}"
+
+                #
+                # Version
+                #
 
                 version_id = f"{version}.{revision}"
+
+                #
+                # Full ISO Message
+                #
+
+                full_name = f"{area}.{message_no}.{version}.{revision}"
 
                 if message_id not in messages:
 
                     messages[message_id] = Message(
                         message_id=message_id,
-                        message_name=xsd.stem,
+                        message_name=message_id,
                         business_area=area.upper(),
                     )
 
@@ -85,15 +92,27 @@ class RepositoryScanner:
                     path=xsd,
                     file_name=xsd.name,
                     file_type="XSD",
-                    source="GitHub",
+                    source="Repository",
                     version=version_id,
                 )
 
                 messages[message_id].versions.append(
                     MessageVersion(
                         version=version_id,
+                        full_name=full_name,
                         xsd=repository_file,
                     )
+                )
+
+            #
+            # Sort Versions
+            #
+
+            for message in messages.values():
+
+                message.versions.sort(
+                    key=lambda v: v.version,
+                    reverse=True,
                 )
 
             business.messages = sorted(
@@ -101,6 +120,8 @@ class RepositoryScanner:
                 key=lambda m: m.message_id,
             )
 
-            repository.business_areas.append(business)
+            repository.business_areas.append(
+                business,
+            )
 
         return repository

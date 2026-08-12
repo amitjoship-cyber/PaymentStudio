@@ -1,39 +1,24 @@
 import streamlit as st
 
-# --------------------------------------------------
-# Payment Studio
-# Version: 0.1.0-alpha
-# --------------------------------------------------
+from App.UI.theme import load_theme
+from App.UI.sidebar import render_sidebar
+from App.UI.dashboard import render_dashboard
 
-st.set_page_config(page_title="Payment Studio", page_icon="💳", layout="wide")
 
-st.title("💳 Payment Studio")
-st.caption("Enterprise Payment Message Explorer & Generator")
+def main():
 
-st.divider()
+    st.set_page_config(
+        page_title="Payment Studio",
+        page_icon="🏦",
+        layout="wide",
+    )
 
-st.success("✅ Payment Studio is running successfully!")
+    load_theme()
 
-col1, col2 = st.columns(2)
+    render_sidebar()
 
-with col1:
-    st.subheader("Repository")
-    st.info("Repository module coming soon.")
+    render_dashboard()
 
-with col2:
-    st.subheader("ISO 20022")
-    st.info("ISO Explorer coming soon.")
 
-st.divider()
-
-st.subheader("Sprint Status")
-
-st.write("Version : **0.1.0-alpha**")
-st.write("Bootstrap : ✅ Complete")
-st.write("GitHub : ✅ Connected")
-st.write("Streamlit : ✅ Installed")
-st.write("Application : ✅ Running")
-
-st.divider()
-
-st.caption("Built with ❤️ for Payments Professionals")
+if __name__ == "__main__":
+    main()

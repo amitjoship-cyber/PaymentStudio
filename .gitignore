@@ -15,3 +15,7 @@ Downloads/
 
 # IDE
 .vscode/
+
+# External repository cache
+Repository/Sources/GitHub/
+Repository/Sources/Official/

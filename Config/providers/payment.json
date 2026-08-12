@@ -1,0 +1,27 @@
+{
+  "provider": "payment",
+  "fields": {
+    "NbOfTxs": {
+      "value": "1"
+    },
+    "PmtInfId": {
+      "value": "PMT_INF_ID_123456"
+    },
+    "EndToEndId": {
+      "value": "end2end_ID_123456"
+    },
+    "CtrlSum": {
+      "generator": "amount"
+    },
+    "SttlmMtd": {
+      "value": "CLRG"
+    },
+    "ChrgBr": {
+      "value": "SHAR"
+    },
+    "IntrBkSttlmAmt": {
+      "value": "100.00",
+      "currency": "EUR"
+    }
+  }
+}

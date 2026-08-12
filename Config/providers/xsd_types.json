@@ -1,0 +1,8 @@
+{
+  "provider": "xsd_type",
+  "types": {
+    "SettlementMethod1Code": {
+      "default": "CLRG"
+    }
+  }
+}

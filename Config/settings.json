@@ -1,0 +1,8 @@
+{
+    "repository": {
+        "github": "C:\\PaymentStudioAssets\\GitHub",
+        "official": "C:\\PaymentStudioAssets\\Official",
+        "custom": "C:\\PaymentStudioAssets\\Custom",
+        "downloads": "C:\\PaymentStudioAssets\\Downloads"
+    }
+}

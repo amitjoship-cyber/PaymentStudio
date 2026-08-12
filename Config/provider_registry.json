@@ -1,0 +1,94 @@
+{
+  "providers": [
+    {
+      "name": "message",
+      "class": "MessageProvider",
+      "enabled": true
+    },
+    {
+      "name": "payment",
+      "class": "PaymentProvider",
+      "enabled": true
+    },
+    {
+      "name": "party",
+      "class": "PartyProvider",
+      "enabled": true
+    },
+    {
+      "name": "name",
+      "class": "NameProvider",
+      "enabled": true
+    },
+    {
+      "name": "date",
+      "class": "DateProvider",
+      "enabled": true
+    },
+    {
+      "name": "country",
+      "class": "CountryProvider",
+      "enabled": true
+    },
+    {
+      "name": "currency",
+      "class": "CurrencyProvider",
+      "enabled": true
+    },
+    {
+      "name": "amount",
+      "class": "AmountProvider",
+      "enabled": true
+    },
+    {
+      "name": "account_identifier",
+      "class": "AccountIdentifierProvider",
+      "enabled": true
+    },
+    {
+      "name": "organisation",
+      "class": "OrganisationProvider",
+      "enabled": true
+    },
+    {
+      "name": "person",
+      "class": "PersonProvider",
+      "enabled": true
+    },
+    {
+      "name": "contact",
+      "class": "ContactProvider",
+      "enabled": true
+    },
+    {
+      "name": "identifier",
+      "class": "IdentifierProvider",
+      "enabled": true
+    },
+    {
+      "name": "code",
+      "class": "CodeProvider",
+      "enabled": true
+    },
+    {
+      "name": "reference",
+      "class": "ReferenceProvider",
+      "enabled": true
+    },
+    {
+      "name": "tax",
+      "class": "TaxProvider",
+      "enabled": true
+    },
+    {
+      "name": "regulatory",
+      "class": "RegulatoryProvider",
+      "enabled": true
+    },
+    {
+      "name": "text",
+      "class": "TextProvider",
+      "enabled": true
+    }
+  ]
+}

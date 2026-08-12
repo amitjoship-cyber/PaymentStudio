@@ -1,0 +1,68 @@
+{
+  "repository": {
+    "name": "Payment Studio Repository",
+    "description": "Central configuration for ISO 20022 repositories and user assets"
+  },
+
+  "sources": [
+    {
+      "name": "Repository",
+      "type": "Repository",
+      "enabled": true,
+      "path": "C:/PaymentStudioAssets/Repository",
+
+      "structure": {
+        "message_family": "folder",
+        "schemas": "xsd",
+        "metadata": "optional"
+      }
+    },
+
+    {
+      "name": "Official ISO Repository",
+      "type": "official",
+      "enabled": false,
+      "path": "",
+
+      "structure": {
+        "message_family": "folder",
+        "schemas": "xsd"
+      }
+    },
+
+    {
+      "name": "GitHub ISO20022 Repository",
+      "type": "github",
+      "enabled": false,
+      "path": "",
+
+      "structure": {
+        "message_family": "folder",
+        "schemas": "xsd"
+      }
+    },
+
+    {
+      "name": "User Repository",
+      "type": "custom",
+      "enabled": true,
+      "path": "C:/PaymentStudioAssets/Custom",
+
+      "structure": {
+        "message_family": "folder",
+        "schemas": "xsd"
+      }
+    }
+  ],
+
+  "message_discovery": {
+    "enabled": true,
+
+    "supported_formats": ["xsd", "mdr", "json", "xml"],
+
+    "version_detection": {
+      "enabled": true,
+      "pattern": "message.version"
+    }
+  }
+}

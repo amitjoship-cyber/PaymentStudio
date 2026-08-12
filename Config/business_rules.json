@@ -1,0 +1,21 @@
+{
+  "ACCOUNT": {
+    "generate_scheme_name": true
+  },
+
+  "IBAN": {
+    "generate_scheme_name": false
+  },
+
+  "UPI": {
+    "generate_scheme_name": true
+  },
+
+  "MOBILE": {
+    "generate_scheme_name": true
+  },
+
+  "EMAIL": {
+    "generate_scheme_name": true
+  }
+}

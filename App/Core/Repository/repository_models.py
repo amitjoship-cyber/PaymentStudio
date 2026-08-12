@@ -33,7 +33,18 @@ class RepositoryFile:
 @dataclass(slots=True)
 class MessageVersion:
 
+    #
+    # Example : 001.13
+    #
+
     version: str
+
+    #
+    # Full ISO message name
+    # Example : pain.001.001.13
+    #
+
+    full_name: str
 
     xsd: Optional[RepositoryFile] = None
 
@@ -52,11 +63,29 @@ class MessageVersion:
 @dataclass(slots=True)
 class Message:
 
+    #
+    # Stable message identifier
+    # Example : pain.001
+    #
+
     message_id: str
+
+    #
+    # Business Area
+    #
+
+    business_area: str
+
+    #
+    # Message family
+    # Example : pain.001
+    #
 
     message_name: str
 
-    business_area: str
+    #
+    # All available versions
+    #
 
     versions: List[MessageVersion] = field(default_factory=list)
 

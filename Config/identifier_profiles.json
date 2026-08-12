@@ -1,0 +1,26 @@
+{
+  "ACCOUNT": {
+    "scheme": "ACCOUNT",
+    "display_name": "Account Number"
+  },
+
+  "IBAN": {
+    "scheme": "IBAN",
+    "display_name": "IBAN"
+  },
+
+  "UPI": {
+    "scheme": "UPI",
+    "display_name": "Virtual Payment Address"
+  },
+
+  "MOBILE": {
+    "scheme": "MOBILE",
+    "display_name": "Mobile Number"
+  },
+
+  "EMAIL": {
+    "scheme": "EMAIL",
+    "display_name": "Email Address"
+  }
+}

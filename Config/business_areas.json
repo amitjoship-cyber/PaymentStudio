@@ -1,0 +1,81 @@
+{
+  "acmt": {
+    "name": "Account Management"
+  },
+
+  "admi": {
+    "name": "Administration"
+  },
+
+  "auth": {
+    "name": "Authorities"
+  },
+
+  "caaa": {
+    "name": "Acceptor to Acquirer Card Transactions"
+  },
+
+  "caad": {
+    "name": "Cash Management Administration"
+  },
+
+  "caam": {
+    "name": "Cash Management"
+  },
+
+  "cafr": {
+    "name": "Trade Finance"
+  },
+
+  "camt": {
+    "name": "Cash Management"
+  },
+
+  "head": {
+    "name": "Business Application Header"
+  },
+
+  "pacs": {
+    "name": "Payments Clearing and Settlement"
+  },
+
+  "pain": {
+    "name": "Payments Initiation"
+  },
+
+  "reda": {
+    "name": "Reference Data"
+  },
+
+  "remt": {
+    "name": "Remittance"
+  },
+
+  "seev": {
+    "name": "Securities Events"
+  },
+
+  "semt": {
+    "name": "Securities Management"
+  },
+
+  "sese": {
+    "name": "Securities Settlement"
+  },
+
+  "setr": {
+    "name": "Securities Trade"
+  },
+
+  "tsin": {
+    "name": "Trade Services Initiation"
+  },
+
+  "tsmt": {
+    "name": "Trade Services Management"
+  },
+
+  "tsrv": {
+    "name": "Trade Services"
+  }
+}

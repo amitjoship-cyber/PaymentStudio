@@ -1,0 +1,17 @@
+{
+  "AccountIdentification4Choice": {
+    "DE": "IBAN",
+
+    "FR": "IBAN",
+
+    "NL": "IBAN",
+
+    "BE": "IBAN",
+
+    "IN": "Othr",
+
+    "US": "Othr",
+
+    "SG": "Othr"
+  }
+}

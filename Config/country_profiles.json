@@ -1,0 +1,32 @@
+{
+  "DE": {
+    "name": "Germany",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "IN": {
+    "name": "India",
+    "currency": "INR",
+    "uses_iban": false,
+    "bank_identifier": "IFSC",
+    "supports_proxy": true,
+    "proxy_types": ["UPI", "Mobile", "Aadhaar"]
+  },
+  "US": {
+    "name": "United States",
+    "currency": "USD",
+    "uses_iban": false,
+    "bank_identifier": "RoutingNumber",
+    "supports_proxy": false
+  },
+  "SG": {
+    "name": "Singapore",
+    "currency": "SGD",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": true,
+    "proxy_types": ["PayNow-Mobile", "PayNow-UEN", "PayNow-NRIC"]
+  }
+}

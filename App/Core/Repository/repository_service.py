@@ -1,60 +1,141 @@
 """
 Payment Studio
 Repository Service
-
-High level API used by the UI.
 """
 
 from pathlib import Path
 
+from .repository_config import RepositoryConfig
 from .repository_scanner import RepositoryScanner
+from .repository_models import (
+    BusinessArea,
+    Message,
+    MessageVersion,
+    RepositoryFile,
+)
 
 
 class RepositoryService:
 
     def __init__(self):
 
-        # Repository folder in project root
-        self.repository_root = Path("Repository")
+        self.config = RepositoryConfig()
 
-        self.scanner = RepositoryScanner(self.repository_root)
+        self.repository = None
 
-        self.repository = self.scanner.scan()
+        for source in self.config.get_sources():
+
+            if not source.get("enabled", False):
+                continue
+
+            path = Path(source["path"])
+
+            if not path.exists():
+                continue
+
+            self.repository = RepositoryScanner(path).scan()
+
+            break
 
     # --------------------------------------------------
 
     def business_areas(self):
 
+        if self.repository is None:
+            return []
+
         return self.repository.business_areas
 
     # --------------------------------------------------
 
-    def total_business_areas(self):
+    def find_business_area(
+        self,
+        code: str,
+    ) -> BusinessArea | None:
 
-        return len(self.repository.business_areas)
+        code = code.upper()
+
+        for area in self.business_areas():
+
+            if area.code == code:
+
+                return area
+
+        return None
 
     # --------------------------------------------------
 
-    def total_messages(self):
+    def find_message(
+        self,
+        message_id: str,
+    ) -> Message | None:
 
-        return sum(len(area.messages) for area in self.repository.business_areas)
+        message_id = message_id.lower()
+
+        for area in self.business_areas():
+
+            for message in area.messages:
+
+                if message.message_id.lower() == message_id:
+
+                    return message
+
+        return None
 
     # --------------------------------------------------
 
-    def total_versions(self):
+    def find_version(
+        self,
+        message_id: str,
+        version: str,
+    ) -> MessageVersion | None:
 
-        return sum(
-            len(message.versions)
-            for area in self.repository.business_areas
-            for message in area.messages
+        message = self.find_message(message_id)
+
+        if message is None:
+
+            return None
+
+        for item in message.versions:
+
+            if item.version == version:
+
+                return item
+
+        return None
+
+    # --------------------------------------------------
+
+    def latest_version(
+        self,
+        message_id: str,
+    ) -> MessageVersion | None:
+
+        message = self.find_message(message_id)
+
+        if message is None:
+
+            return None
+
+        if not message.versions:
+
+            return None
+
+        return message.versions[0]
+
+    # --------------------------------------------------
+
+    def latest_xsd(
+        self,
+        message_id: str,
+    ) -> RepositoryFile | None:
+
+        version = self.latest_version(
+            message_id,
         )
 
-    # --------------------------------------------------
+        if version is None:
 
-    def statistics(self):
+            return None
 
-        return {
-            "Business Areas": self.total_business_areas(),
-            "Messages": self.total_messages(),
-            "Versions": self.total_versions(),
-        }
+        return version.xsd

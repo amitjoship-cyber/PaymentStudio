@@ -1,0 +1,11 @@
+{
+  "assets": [
+    "XSD",
+    "MDR",
+    "Documentation",
+    "Sample XML",
+    "Swagger",
+    "JSON Schema",
+    "Excel Mapping"
+  ]
+}

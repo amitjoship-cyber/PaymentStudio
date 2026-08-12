@@ -1,0 +1,47 @@
+{
+  "provider": "party",
+  "fields": {
+    "Nm": {
+      "country_values": {
+        "IN": "ABC Technologies Pvt Ltd",
+        "DE": "ABC Technologies GmbH",
+        "GB": "ABC Technologies Ltd",
+        "US": "ABC Technologies Inc"
+      },
+      "default": "ABC Technologies"
+    },
+    "CtryOfRes": {
+      "context": "country"
+    },
+    "Ctry": {
+      "context": "country"
+    },
+    "Lang": {
+      "value": "EN"
+    },
+    "CtctDtls": {
+      "value": "Finance Department"
+    },
+    "Dept": {
+      "value": "Finance"
+    },
+    "JobTitl": {
+      "value": "Finance Manager"
+    },
+    "NmPrfx": {
+      "value": "MIST"
+    },
+    "EmailAdr": {
+      "value": "payments@abctech.com"
+    },
+    "PhneNb": {
+      "value": "+91-1234567890"
+    },
+    "MobNb": {
+      "value": "+91-9876543210"
+    },
+    "URLAdr": {
+      "value": "https://www.abctech.com"
+    }
+  }
+}
