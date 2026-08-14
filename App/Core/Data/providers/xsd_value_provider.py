@@ -3,6 +3,8 @@ Project Prism
 XSD Value Provider
 """
 
+import re
+
 from decimal import Decimal
 
 
@@ -125,17 +127,35 @@ class XSDValueProvider:
         )
 
         #
+        # gYearMonth
+        #
+
+        if base in (
+            "xs:gYearMonth",
+            "gYearMonth",
+        ):
+            return "2026-01"
+
+        #
+        # gYear
+        #
+
         if base in (
             "xs:gYear",
             "gYear",
         ):
             return "2026"
+
         #
+        # base64Binary
+        #
+
         if base in (
             "xs:base64Binary",
             "base64Binary",
         ):
             return "UGF5bWVudFN0dWRpbw=="
+
         #
         # Boolean
         #
@@ -744,17 +764,15 @@ class XSDValueProvider:
             return "+91-1234567890"
 
         #
-        # Generic uppercase/alphanumeric.
-        #
-        #
-        #
         # Hex-encoded binary (e.g. ILP condition/fulfillment).
         #
 
         if "[0-9a-fA-F]" in pattern:
 
             return "1a2b3c4d5e6f7a8b"
+
         #
+        # Generic uppercase/alphanumeric.
         #
 
         if "[A-Z0-9]" in pattern:
@@ -764,10 +782,29 @@ class XSDValueProvider:
         #
         # Generic numeric pattern.
         #
+        # Respect an explicit length quantifier when present
+        # (e.g. "[0-9]{8,28}" or "[0-9]{3}"), rather than
+        # returning a single digit that fails min-length checks.
+        #
 
         if "[0-9]" in pattern:
 
-            return "1"
+            match = re.search(
+                r"\[0-9\]\{(\d+)(?:,(\d+))?\}",
+                pattern,
+            )
+
+            if match:
+
+                length = int(
+                    match.group(2) or match.group(1),
+                )
+
+            else:
+
+                length = 1
+
+            return "1" * length
 
         #
         # We cannot safely infer an arbitrary regex.

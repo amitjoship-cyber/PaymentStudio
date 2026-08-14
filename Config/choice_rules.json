@@ -8,108 +8,166 @@
     "US": "Othr",
     "SG": "Othr"
   },
-
   "Frequency36Choice": {
     "*": "Tp"
   },
-
   "RegulatoryReportingType1Choice": {
     "*": "Cd"
   },
-
   "CryptographicKey1Choice": {
     "*": "ILPV4"
   },
-
   "AddressType3Choice": {
     "*": "Cd"
   },
-
   "AccountSchemeName1Choice": {
     "*": "Cd"
   },
-
   "FinancialIdentificationSchemeName1Choice": {
     "*": "Cd"
   },
-
   "OrganisationIdentificationSchemeName1Choice": {
     "*": "Cd"
   },
-
   "PersonIdentificationSchemeName1Choice": {
     "*": "Cd"
   },
-
   "CashAccountType2Choice": {
     "*": "Cd"
   },
-
   "CategoryPurpose1Choice": {
     "*": "Cd"
   },
-
   "ChargeType3Choice": {
     "*": "Cd"
   },
-
   "ClearingSystemIdentification2Choice": {
     "*": "Cd"
   },
-
   "ClearingSystemIdentification3Choice": {
     "*": "Cd"
   },
-
   "CreditorReferenceType2Choice": {
     "*": "Cd"
   },
-
   "DateType2Choice": {
     "*": "Cd"
   },
-
   "DocumentAmountType1Choice": {
     "*": "Cd"
   },
-
   "DocumentLineType1Choice": {
     "*": "Cd"
   },
-
   "DocumentType2Choice": {
     "*": "Cd"
   },
-
   "GarnishmentType1Choice": {
     "*": "Cd"
   },
-
   "LocalInstrument2Choice": {
     "*": "Cd"
   },
-
   "MandateClassification1Choice": {
     "*": "Cd"
   },
-
   "MandateSetupReason1Choice": {
     "*": "Cd"
   },
-
   "ProxyAccountType1Choice": {
     "*": "Cd"
   },
-
   "Purpose2Choice": {
     "*": "Cd"
   },
-
+  "ServiceLevel8Choice": {
+    "*": "Cd"
+  },
   "Party52Choice": {
     "*": "PrvtId"
   },
-
-  "ServiceLevel8Choice": {
+  "Authorisation1Choice": {
     "*": "Cd"
+  },
+  "AdviceType1Choice": {
+    "*": "Cd"
+  },
+  "ChequeDeliveryMethod1Choice": {
+    "*": "Cd"
+  },
+  "DateAndDateTime2Choice": {
+    "*": "Dt"
+  },
+  "AmountType4Choice": {
+    "*": "InstdAmt"
+  },
+  "SequenceRange1Choice": {
+    "*": "FrSeq"
+  },
+  "ReportingSource1Choice": {
+    "*": "Cd"
+  },
+  "InterestType1Choice": {
+    "*": "Cd"
+  },
+  "RateType4Choice": {
+    "*": "Pctg"
+  },
+  "ImpliedCurrencyAmountRange1Choice": {
+    "*": "FrToAmt"
+  },
+  "BalanceType10Choice": {
+    "*": "Cd"
+  },
+  "BalanceSubType1Choice": {
+    "*": "Cd"
+  },
+  "CreditLineType1Choice": {
+    "*": "Cd"
+  },
+  "CashAvailabilityDate1Choice": {
+    "*": "NbOfDays"
+  },
+  "EntryStatus1Choice": {
+    "*": "Cd"
+  },
+  "TechnicalInputChannel1Choice": {
+    "*": "Cd"
+  },
+  "DateOrDateTimePeriod1Choice": {
+    "*": "Dt"
+  },
+  "Party50Choice": {
+    "*": "Pty"
+  },
+  "TransactionPrice4Choice": {
+    "*": "DealPric"
+  },
+  "TransactionQuantities4Choice": {
+    "*": "Qty"
+  },
+  "IdentificationSource3Choice": {
+    "*": "Cd"
+  },
+  "ReturnReason5Choice": {
+    "*": "Cd"
+  },
+  "CorporateActionEventType104Choice": {
+    "*": "Cd"
+  },
+  "References80Choice": {
+    "*": "AcctSvcrTxId"
+  },
+  "CardTransaction3Choice": {
+    "*": "Aggtd"
+  },
+  "PriceRateOrAmount3Choice": {
+    "*": "Rate"
+  },
+  "FinancialInstrumentQuantity33Choice": {
+    "*": "Unit"
+  },
+  "YieldedOrValueType1Choice": {
+    "*": "Yldd"
   }
 }

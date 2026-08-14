@@ -20,7 +20,7 @@ from .repository_models import (
 class RepositoryScanner:
 
     MESSAGE_PATTERN = re.compile(
-        r"([a-z]{4})\.(\d{3})\.(\d{3})\.(\d{2})\.xsd$",
+        r"([a-z]{4})\.(\d{3})\.(\d{3})\.(\d{2})(?:_\d+)?\.xsd$",
         re.IGNORECASE,
     )
 

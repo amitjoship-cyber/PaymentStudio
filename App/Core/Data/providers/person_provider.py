@@ -98,7 +98,6 @@ class PersonProvider(
         #
         # Generic Identification
         #
-        "Issr": _issuer.__func__,
         "SchmeNm": _scheme.__func__,
         "Othr": _other.__func__,
     }

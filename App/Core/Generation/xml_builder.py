@@ -320,7 +320,6 @@ class XMLBuilder:
         )
 
         #
-        #
         # xs:any wildcard content (e.g. SupplementaryData/Envlp).
         # The XSD model doesn't track wildcards, so this element
         # would otherwise get invalid text content. Insert a
@@ -334,7 +333,8 @@ class XMLBuilder:
                 "SupplementaryDataPlaceholder",
             )
 
-            return
+            return child
+
         #
         # Complex type
         #
@@ -383,6 +383,29 @@ class XMLBuilder:
                 "attributes",
                 {},
             )
+
+            #
+            # Guard: a "Ccy" attribute is only valid on genuine
+            # currency-and-amount types (e.g.
+            # ActiveOrHistoricCurrencyAndAmount). Some fields are
+            # named "Amt" but resolve to a plain decimal type
+            # (e.g. NonNegativeDecimalNumber) which does not
+            # permit a Ccy attribute at all.
+            #
+
+            type_name = getattr(
+                element.resolved_type,
+                "name",
+                "",
+            ) or ""
+
+            if "Ccy" in attributes and "CurrencyAndAmount" not in type_name:
+
+                attributes = {
+                    k: v
+                    for k, v in attributes.items()
+                    if k != "Ccy"
+                }
 
             for name, attribute_value in attributes.items():
 

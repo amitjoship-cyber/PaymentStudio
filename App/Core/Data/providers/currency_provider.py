@@ -17,6 +17,8 @@ class CurrencyProvider(ProviderBase):
             "Ccy",
             "UnitCcy",
             "QtdCcy",
+            "SrcCcy",
+            "TrgtCcy",
         ]
 
     # --------------------------------------------------

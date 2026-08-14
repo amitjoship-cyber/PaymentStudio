@@ -95,6 +95,5 @@ class OrganisationProvider(
         #
         "Othr": _other.__func__,
         "Id": _identifier.__func__,
-        "Issr": _issuer.__func__,
         "SchmeNm": _scheme.__func__,
     }

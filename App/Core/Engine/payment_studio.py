@@ -126,6 +126,70 @@ class PaymentStudio:
         )
 
     # --------------------------------------------------
+
+    def _find_xsd_for(
+        self,
+        message,
+    ):
+
+        if message.count(".") >= 2:
+
+            parts = message.split(".")
+
+            message_id = ".".join(parts[:2])
+
+            version = ".".join(parts[2:])
+
+            version_info = self.repository_service.find_version(
+                message_id,
+                version,
+            )
+
+            return version_info.xsd if version_info else None
+
+        return self.repository_service.latest_xsd(message)
+
+    # --------------------------------------------------
+
+    def _resolve_repository_and_builder(
+        self,
+        message,
+    ):
+
+        #
+        # A dedicated XSDRepository + XMLBuilder must be built per
+        # message type, since each is bound to a single parsed
+        # schema. Cached per resolved XSD path so repeated calls
+        # for the same message don't re-parse the schema.
+        #
+
+        if not hasattr(self, "_builders_by_path"):
+
+            self._builders_by_path = {}
+
+        xsd_file = self._find_xsd_for(message)
+
+        if xsd_file is None:
+
+            return None, None
+
+        key = str(xsd_file.path)
+
+        if key in self._builders_by_path:
+
+            return self._builders_by_path[key]
+
+        schema = XSDService().load(xsd_file.path)
+
+        repository = XSDRepository(schema)
+
+        builder = BuilderFactory.create(repository)
+
+        self._builders_by_path[key] = (repository, builder)
+
+        return repository, builder
+
+    # --------------------------------------------------
     # Public Generation API
     # --------------------------------------------------
 
@@ -150,7 +214,19 @@ class PaymentStudio:
             context,
         )
 
-        generated = self.builder.build_message(
+        _, resolved_builder = self._resolve_repository_and_builder(
+            message,
+        )
+
+        if resolved_builder is None:
+
+            result.errors = [
+                f"Schema not found for '{message}'.",
+            ]
+
+            return result
+
+        generated = resolved_builder.build_message(
             message,
             context,
         )

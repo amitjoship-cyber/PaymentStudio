@@ -79,4 +79,7 @@ class AmountProvider(
         "RmtdAmt": _amount.__func__,
         "TtlTaxblBaseAmt": _amount.__func__,
         "TtlIntrBkSttlmAmt": _amount.__func__,
+        "TtlChrgsAndTaxAmt": _amount.__func__,
+        "TtlIntrstAndTaxAmt": _amount.__func__,
+        "NoteDnmtn": _amount.__func__,
     }

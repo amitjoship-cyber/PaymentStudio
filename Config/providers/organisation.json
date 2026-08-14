@@ -1,37 +1,26 @@
 {
   "provider": "organisation",
-
   "fields": {
     "LEI": {
       "generator": "identifier",
       "type": "lei"
     },
-
     "AnyBIC": {
       "generator": "identifier",
       "type": "bic"
     },
-
     "BICFI": {
       "generator": "identifier",
       "type": "bic"
     },
-
     "Othr": {
       "generator": "identifier",
       "type": "other"
     },
-
     "Id": {
       "generator": "identifier",
       "type": "identifier"
     },
-
-    "Issr": {
-      "generator": "identifier",
-      "type": "issuer"
-    },
-
     "SchmeNm": {
       "generator": "identifier",
       "type": "scheme"

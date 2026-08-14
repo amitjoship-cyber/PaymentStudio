@@ -20,4 +20,24 @@ class RepositoryConfig:
 
     def get_sources(self):
 
-        return self.config["sources"]
+        #
+        # Paths in repository.json may contain the ${ASSETS} token,
+        # which is resolved here against ProjectPaths.assets() so the
+        # asset location stays configurable (env var or sibling
+        # folder) instead of hardcoded per-machine.
+        #
+
+        sources = self.config["sources"]
+
+        assets_root = str(ProjectPaths.assets())
+
+        for source in sources:
+
+            if "path" in source and source["path"]:
+
+                source["path"] = source["path"].replace(
+                    "${ASSETS}",
+                    assets_root,
+                )
+
+        return sources
