@@ -19,7 +19,12 @@ class AmountProvider(
         context,
     ):
 
-        return "1000.00"
+        return {
+            "value": "1000.00",
+            "attributes": {
+                "Ccy": "INR",
+            },
+        }
 
     # --------------------------------------------------
 
@@ -68,4 +73,10 @@ class AmountProvider(
         "ChrgsAmt": _charges.__func__,
         "TaxAmt": _tax.__func__,
         "XchgRate": _exchange_rate.__func__,
+        "TtlAmt": _amount.__func__,
+        "TtlTaxAmt": _amount.__func__,
+        "TaxblBaseAmt": _amount.__func__,
+        "RmtdAmt": _amount.__func__,
+        "TtlTaxblBaseAmt": _amount.__func__,
+        "TtlIntrBkSttlmAmt": _amount.__func__,
     }

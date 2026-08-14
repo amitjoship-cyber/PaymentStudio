@@ -88,7 +88,6 @@ class TaxProvider(
     FIELDS = {
         "TaxId": _tax_id.__func__,
         "RegnId": _registration_id.__func__,
-        "Tp": _tax_type.__func__,
         "Ctry": _country.__func__,
         "TaxAmt": _amount.__func__,
         "Rate": _rate.__func__,

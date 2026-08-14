@@ -13,11 +13,9 @@ class CodeProvider(
 ):
 
     FIELDS = {
-        "Cd": lambda c: "INST",
         "CdOrPrtry": lambda c: "CODE",
         "Prtry": lambda c: "PRIV",
         "Issr": lambda c: "ISO20022",
         "SchmeNm": lambda c: "STANDARD",
-        "Tp": lambda c: "SEPA",
         "Lvl": lambda c: "NORM",
     }

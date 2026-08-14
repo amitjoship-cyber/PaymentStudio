@@ -320,6 +320,22 @@ class XMLBuilder:
         )
 
         #
+        #
+        # xs:any wildcard content (e.g. SupplementaryData/Envlp).
+        # The XSD model doesn't track wildcards, so this element
+        # would otherwise get invalid text content. Insert a
+        # harmless placeholder child element instead.
+        #
+
+        if element.name == "Envlp":
+
+            SubElement(
+                child,
+                "SupplementaryDataPlaceholder",
+            )
+
+            return
+        #
         # Complex type
         #
         # If this element contains a nested complex

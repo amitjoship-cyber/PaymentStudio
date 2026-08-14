@@ -15,6 +15,8 @@ class CurrencyProvider(ProviderBase):
 
         return element.name in [
             "Ccy",
+            "UnitCcy",
+            "QtdCcy",
         ]
 
     # --------------------------------------------------

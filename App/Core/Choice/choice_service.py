@@ -10,7 +10,10 @@ from .choice_repository import ChoiceRepository
 
 class ChoiceService:
 
-    def __init__(self, repository: ChoiceRepository):
+    def __init__(
+        self,
+        repository: ChoiceRepository,
+    ):
 
         self.repository = repository
 
@@ -23,24 +26,43 @@ class ChoiceService:
         strategy: IdentifierStrategy,
     ):
 
-        rule = self.repository.get(choice_name)
+        rule = self.repository.get(
+            choice_name,
+        )
 
         if rule is None:
 
             return None
 
         #
-        # Country Rule
+        # Country-specific rule
         #
 
-        selected = rule.selections.get(country_code.upper())
+        selected = rule.selections.get(
+            country_code.upper(),
+        )
 
         if selected:
 
             return selected
 
         #
-        # Generic Rule
+        # Generic JSON rule
+        #
+        # "*" means this selection applies
+        # to every country unless overridden above.
+        #
+
+        selected = rule.selections.get(
+            "*",
+        )
+
+        if selected:
+
+            return selected
+
+        #
+        # Existing identifier fallback
         #
 
         if strategy.identifier.value == "IBAN":

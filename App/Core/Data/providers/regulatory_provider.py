@@ -81,17 +81,8 @@ class RegulatoryProvider(
     # --------------------------------------------------
 
     FIELDS = {
-
         "Authrty": _authority.__func__,
-
-        "Cd": _code.__func__,
-
         "Inf": _information.__func__,
-
-        "Tp": _type.__func__,
-
         "Ctry": _country.__func__,
-
         "Amt": _amount.__func__,
-
     }
