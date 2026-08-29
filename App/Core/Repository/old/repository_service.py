@@ -33,12 +33,7 @@ class RepositoryService:
             if not path.exists():
                 continue
 
-            archive_subfolder = source.get("archive_subfolder", "archieve")
-
-            self.repository = RepositoryScanner(
-                path,
-                archive_subfolder=archive_subfolder,
-            ).scan()
+            self.repository = RepositoryScanner(path).scan()
 
             break
 
@@ -150,23 +145,6 @@ class RepositoryService:
             return None
 
         return message.versions[0]
-
-    # --------------------------------------------------
-
-    def current_version(
-        self,
-        message_id: str,
-    ) -> MessageVersion | None:
-
-        #
-        # Same result as latest_version() today, since the scanner
-        # always sorts the current (non-archive) version to index 0.
-        # This method exists so UI code can express "give me the
-        # version that should be pre-selected" explicitly, rather
-        # than relying on "latest" happening to mean the same thing.
-        #
-
-        return self.latest_version(message_id)
 
     # --------------------------------------------------
 

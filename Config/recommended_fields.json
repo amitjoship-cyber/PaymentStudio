@@ -1,0 +1,7 @@
+{
+  "_comment": "Fields listed here are technically optional (minOccurs=0) in the ISO 20022 schema, but are included even in 'minimal' generation mode because a realistic sample message needs them. Example: BICFI on an agent's FinInstnId is optional per XSD, but an agent with zero identification isn't a useful test message. Extend this list as more gaps like this are found - it's config, not code, on purpose.",
+  "fields": [
+    "BICFI",
+    "AnyBIC"
+  ]
+}

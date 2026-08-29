@@ -58,3 +58,9 @@ class CountryRepository:
     def exists(self, code: str):
 
         return code.upper() in self._countries
+
+    # --------------------------------------------------
+
+    def all_codes(self):
+
+        return sorted(self._countries.keys())

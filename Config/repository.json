@@ -9,6 +9,7 @@
       "type": "Repository",
       "enabled": true,
       "path": "${ASSETS}/Repository",
+      "archive_subfolder": "archieve",
       "structure": {
         "message_family": "folder",
         "schemas": "xsd",

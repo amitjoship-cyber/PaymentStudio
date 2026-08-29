@@ -74,37 +74,40 @@ No change needed to the Provider/Generator/Repository layers. This vision is add
 
 ---
 
-## 5. Roadmap (Revised)
+## 5. Roadmap (Revised — v3, post generalization-testing)
 
-### Phase 0 — Foundation (mostly done)
-- Repository/XSD parsing, Generation Engine, Provider framework, Config-driven design
-- **Remaining:** wire the real ISO 20022 XSDs from `PaymentStudioAssets` into `Repository/ISO20022`; retire `Archive/` (see §7 of the earlier strategy doc — still valid)
+**What changed since v2:** v2 assumed that fixing `pacs.008` end-to-end was the hard part. Session testing across `pacs.008`, `pain.001`, and `camt.053` proved otherwise — the generation *engine* is sound, but the fixes used to get each message clean (`Config/choice_rules.json` entries keyed by internal XSD type names like `Party52Choice`) directly violate the project's own `ADR-012` ("never depend on ISO type version numbers"). Proof: the same choice structure was named `Party38Choice` in older ISO conventions and `Party52Choice` in `pacs.008.001.14` — a type-name-keyed fix for one version silently fails on another. This isn't a hypothetical risk; it's a mechanism, confirmed by testing. It means every new message *and every new version of a message already fixed* currently requires its own diagnose-fix pass — the tax compounds instead of the fix compounding.
 
-### Phase 1 — Usable Generator (the "playground" becomes real)
-- Repository UI: upload/download XSD & MDR into the right `Repository/` subfolder
-- Message generation UI: pick message type + version + minimal/full → generate
-- Target: someone who isn't you can open the app and generate a valid `pain.001`
+That changes the priority order below: the next milestone is fixing *how* the fix generalizes, not adding more fixes of the same kind.
 
-### Phase 2 — Compare & Validate (highest-value build)
-- XSD structural validation (valid/invalid, with line-level errors)
-- Diagnostic Compare Engine: missing mandatory tags, present-but-empty values, unexpected elements
-- This is the feature that makes it a *learning* tool, not just a generator — prioritize it right after Phase 1
+### Milestone A — Generalization Fix (ADR-012 compliance)
 
-### Phase 3 — Transform
-- JSON Schema Engine (canonical schema per message type)
-- XML↔JSON conversion (built on the same schema)
-- Swagger/OpenAPI generation (built on the same schema — don't build separately)
+**Goal:** Choice resolution and provider field-ownership stop depending on internal XSD type names, and depend only on the stable XML element-name contract, per ADR-012.
 
-### Phase 4 — MT↔MX Mapping (scoped)
-- Start with exactly 3 pairs: MT103↔pacs.008, MT202↔pacs.009, MT940/942↔camt.053/052
-- Config-driven mapping rules per pair, not a generic engine yet
-- Generalize the framework only after these 3 are solid and you've seen where they actually differ
+- Replace (or supplement) `choice_rules.json`'s type-name-keyed lookup with a **universal default table** keyed by the *option element names themselves* — e.g. "when choosing between `Cd` and `Prtry`, default to `Cd`", "between `Dt` and `DtTm`, default to `Dt`", "between `OrgId` and `PrvtId`, default to `PrvtId`". This single small table replaces the ~50 type-name entries accumulated this session, and works on any version, any message, without modification.
+- Keep type-name-keyed entries only as **explicit overrides** for the rare cases where a business reason (not a version quirk) requires a specific choice — e.g. `AccountIdentification4Choice`'s country-specific IBAN-vs-Other logic is a genuine business rule, not incidental — those stay.
+- Audit the Python/JSON providers for any remaining type-name dependencies (most of this session's fixes were already tag-name-based and already ADR-012-compliant — this is a smaller cleanup than it sounds).
 
-### Phase 5 — Learning Platform
-- Message Explorer (browse structure with business meaning attached)
-- Payment Assistant (AI explains fields, why validation failed, etc.) — this is where "AI-ready metadata" (already a stated architecture principle) starts paying off directly
+**Proof of done (don't just assert it — test it):**
+- Source at least one *older* version of an already-fixed message (e.g. an older `pacs.008` or `pain.001` release) and confirm it generates clean *without* new choice-rule entries.
+- Generate `camt.056` (already in your asset bundle, untested) and confirm the universal defaults get it most of the way clean on the first attempt, with only genuinely new field-level gaps (not choice-group gaps) remaining.
+
+This milestone is infrastructure, not a visible feature — but it's what makes every milestone after it fast instead of slow.
+
+### Milestone B — Compare/Validate Diagnostics
+
+Unchanged from v2's Phase 2 — still the highest-value *user-facing* feature (missing mandatory tags, present-but-empty values, structural diagnostics). Sequenced after Milestone A because a diagnostic tool built against version-fragile generation would inherit the same fragility.
+
+### Milestone C — Message Coverage Expansion
+
+Once Milestone A is proven: systematically add PACS/PAIN/CAMT versions and message families. This should now be largely mechanical — generate, note genuine field-level gaps (not choice-group gaps), fix, move on. Track known-clean messages in a simple manifest (e.g. `Docs/VALIDATED_MESSAGES.md`) so it's visible at a glance what's proven vs. untested.
+
+### Milestone D onward — unchanged from v2
+
+JSON Schema Engine → XML↔JSON conversion → Swagger/OpenAPI → MT↔MX Mapping (still scoped to 3 pairs first, still the largest single effort) → Message Explorer → Payment Assistant. See v2 sections above for detail on each; sequencing logic hasn't changed, only what's ahead of it.
 
 ---
+
 
 ## 6. Domain Risk Notes (from an architect's chair)
 

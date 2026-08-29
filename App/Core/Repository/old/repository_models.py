@@ -54,17 +54,6 @@ class MessageVersion:
 
     documentation: Optional[RepositoryFile] = None
 
-    #
-    # True when this version was found under the "current"
-    # source location (e.g. Repository/PACS), as opposed to
-    # the historical archive location (e.g. Repository/archieve/pacs).
-    #
-    # The UI should default selection to the version where this
-    # is True, while still listing every other version.
-    #
-
-    is_current: bool = True
-
 
 # --------------------------------------------------------
 # ISO Message

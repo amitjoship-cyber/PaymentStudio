@@ -6,7 +6,17 @@ Sidebar
 import streamlit as st
 
 
+PAGES = {
+    "dashboard": "🏠 Dashboard",
+    "generate": "⚡ Generate & Validate",
+}
+
+
 def render_sidebar():
+
+    if "page" not in st.session_state:
+
+        st.session_state.page = "dashboard"
 
     with st.sidebar:
 
@@ -14,15 +24,26 @@ def render_sidebar():
 
         st.divider()
 
-        st.button("🏠 Dashboard", use_container_width=True)
+        for key, label in PAGES.items():
 
-        st.button("📚 Repository Explorer", use_container_width=True)
+            is_current = st.session_state.page == key
 
-        st.button("📥 Import Wizard", use_container_width=True)
+            if st.button(
+                label,
+                use_container_width=True,
+                type="primary" if is_current else "secondary",
+            ):
 
-        st.button("⚙ Repository Settings", use_container_width=True)
+                st.session_state.page = key
 
-        st.button("ℹ About", use_container_width=True)
+                st.rerun()
+
+        st.divider()
+
+        st.caption(
+            "Repository Explorer, Import Wizard, and Settings "
+            "are planned - see Docs/VISION_AND_ROADMAP.md."
+        )
 
         st.divider()
 

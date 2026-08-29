@@ -1,7 +1,145 @@
 {
+  "AE": {
+    "name": "United Arab Emirates",
+    "currency": "AED",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "AT": {
+    "name": "Austria",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "AU": {
+    "name": "Australia",
+    "currency": "AUD",
+    "uses_iban": false,
+    "bank_identifier": "BSB",
+    "supports_proxy": false
+  },
+  "BH": {
+    "name": "Bahrain",
+    "currency": "BHD",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "BR": {
+    "name": "Brazil",
+    "currency": "BRL",
+    "uses_iban": false,
+    "bank_identifier": "ISPB",
+    "supports_proxy": true,
+    "proxy_types": [
+      "PIX-CPF",
+      "PIX-Phone",
+      "PIX-Email"
+    ]
+  },
+  "CA": {
+    "name": "Canada",
+    "currency": "CAD",
+    "uses_iban": false,
+    "bank_identifier": "TransitNumber",
+    "supports_proxy": false
+  },
+  "CH": {
+    "name": "Switzerland",
+    "currency": "CHF",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "CN": {
+    "name": "China",
+    "currency": "CNY",
+    "uses_iban": false,
+    "bank_identifier": "CNAPS",
+    "supports_proxy": false
+  },
   "DE": {
     "name": "Germany",
     "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "DK": {
+    "name": "Denmark",
+    "currency": "DKK",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "EG": {
+    "name": "Egypt",
+    "currency": "EGP",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "ES": {
+    "name": "Spain",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "FI": {
+    "name": "Finland",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "FR": {
+    "name": "France",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "GB": {
+    "name": "United Kingdom",
+    "currency": "GBP",
+    "uses_iban": true,
+    "bank_identifier": "SortCode",
+    "supports_proxy": false
+  },
+  "GR": {
+    "name": "Greece",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "HK": {
+    "name": "Hong Kong",
+    "currency": "HKD",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "ID": {
+    "name": "Indonesia",
+    "currency": "IDR",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "IE": {
+    "name": "Ireland",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "IL": {
+    "name": "Israel",
+    "currency": "ILS",
     "uses_iban": true,
     "bank_identifier": "BIC",
     "supports_proxy": false
@@ -12,13 +150,136 @@
     "uses_iban": false,
     "bank_identifier": "IFSC",
     "supports_proxy": true,
-    "proxy_types": ["UPI", "Mobile", "Aadhaar"]
+    "proxy_types": [
+      "UPI",
+      "Mobile",
+      "Aadhaar"
+    ]
   },
-  "US": {
-    "name": "United States",
-    "currency": "USD",
+  "IT": {
+    "name": "Italy",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "JO": {
+    "name": "Jordan",
+    "currency": "JOD",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "JP": {
+    "name": "Japan",
+    "currency": "JPY",
     "uses_iban": false,
-    "bank_identifier": "RoutingNumber",
+    "bank_identifier": "ZenginCode",
+    "supports_proxy": false
+  },
+  "KR": {
+    "name": "South Korea",
+    "currency": "KRW",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "KW": {
+    "name": "Kuwait",
+    "currency": "KWD",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "LB": {
+    "name": "Lebanon",
+    "currency": "LBP",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "LU": {
+    "name": "Luxembourg",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "MX": {
+    "name": "Mexico",
+    "currency": "MXN",
+    "uses_iban": false,
+    "bank_identifier": "CLABE",
+    "supports_proxy": false
+  },
+  "MY": {
+    "name": "Malaysia",
+    "currency": "MYR",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "NO": {
+    "name": "Norway",
+    "currency": "NOK",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "NZ": {
+    "name": "New Zealand",
+    "currency": "NZD",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "OM": {
+    "name": "Oman",
+    "currency": "OMR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "PH": {
+    "name": "Philippines",
+    "currency": "PHP",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "PL": {
+    "name": "Poland",
+    "currency": "PLN",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "PT": {
+    "name": "Portugal",
+    "currency": "EUR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "QA": {
+    "name": "Qatar",
+    "currency": "QAR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "SA": {
+    "name": "Saudi Arabia",
+    "currency": "SAR",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "SE": {
+    "name": "Sweden",
+    "currency": "SEK",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
     "supports_proxy": false
   },
   "SG": {
@@ -27,6 +288,45 @@
     "uses_iban": false,
     "bank_identifier": "BankCode",
     "supports_proxy": true,
-    "proxy_types": ["PayNow-Mobile", "PayNow-UEN", "PayNow-NRIC"]
+    "proxy_types": [
+      "PayNow-Mobile",
+      "PayNow-UEN",
+      "PayNow-NRIC"
+    ]
+  },
+  "TH": {
+    "name": "Thailand",
+    "currency": "THB",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "TR": {
+    "name": "Turkey",
+    "currency": "TRY",
+    "uses_iban": true,
+    "bank_identifier": "BIC",
+    "supports_proxy": false
+  },
+  "US": {
+    "name": "United States",
+    "currency": "USD",
+    "uses_iban": false,
+    "bank_identifier": "RoutingNumber",
+    "supports_proxy": false
+  },
+  "VN": {
+    "name": "Vietnam",
+    "currency": "VND",
+    "uses_iban": false,
+    "bank_identifier": "BankCode",
+    "supports_proxy": false
+  },
+  "ZA": {
+    "name": "South Africa",
+    "currency": "ZAR",
+    "uses_iban": false,
+    "bank_identifier": "BranchCode",
+    "supports_proxy": false
   }
 }

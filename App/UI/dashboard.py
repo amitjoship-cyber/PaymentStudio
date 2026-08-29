@@ -12,19 +12,35 @@ from App.Core.Repository.asset_service import AssetService
 
 def render_dashboard():
 
-    service = RepositoryService()
-    business_service = BusinessAreaService()
-    asset_service = AssetService()
+    st.markdown("### 🏠 Dashboard")
 
-    st.title("🏦 Payment Studio")
+    st.caption("ISO 20022 Engineering Workbench — repository overview.")
 
-    st.write("Welcome to the ISO 20022 Engineering Workbench.")
+    st.write("")
+
+    try:
+
+        service = RepositoryService()
+        business_service = BusinessAreaService()
+        asset_service = AssetService()
+
+        stats = service.statistics()
+
+    except Exception as error:
+
+        st.error(
+            "Could not load the repository. This usually means "
+            "PAYMENT_STUDIO_ASSETS isn't pointing at a valid "
+            "location, or the asset folder is missing."
+        )
+
+        st.caption(f"Details: {error}")
+
+        return
 
     # ----------------------------------------------------
     # Statistics
     # ----------------------------------------------------
-
-    stats = service.statistics()
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -33,112 +49,139 @@ def render_dashboard():
     col3.metric("Versions", stats["Versions"])
     col4.metric("Repository", "Connected")
 
-    st.divider()
+    st.write("")
 
     # ----------------------------------------------------
     # Repository Explorer
     # ----------------------------------------------------
 
-    st.subheader("Repository Explorer")
+    with st.container(border=True):
 
-    business_areas = service.business_areas()
+        st.markdown("##### Repository Explorer")
 
-    area_lookup = {}
+        st.write("")
 
-    for area in business_areas:
+        business_areas = service.business_areas()
 
-        display = f"{area.code} - " f"{business_service.get_name(area.code)}"
+        if not business_areas:
 
-        area_lookup[display] = area
+            st.info(
+                "No business areas found yet. Add ISO 20022 XSDs "
+                "to the Repository to populate this."
+            )
 
-    selected_display = st.selectbox(
-        "Business Area",
-        list(area_lookup.keys()),
-    )
+            return
 
-    selected_business = area_lookup[selected_display]
+        area_lookup = {}
 
-    # ----------------------------------------------------
-    # Messages
-    # ----------------------------------------------------
+        for area in business_areas:
 
-    message_lookup = {}
+            display = f"{area.code} - {business_service.get_name(area.code)}"
 
-    for message in selected_business.messages:
+            area_lookup[display] = area
 
-        display = f"{message.message_id}" f" ({len(message.versions)} Versions)"
+        col1, col2, col3 = st.columns(3)
 
-        message_lookup[display] = message
+        with col1:
 
-    selected_message_display = st.selectbox(
-        "Message",
-        list(message_lookup.keys()),
-    )
+            selected_display = st.selectbox(
+                "Business Area",
+                list(area_lookup.keys()),
+            )
 
-    selected_message = message_lookup[selected_message_display]
+        selected_business = area_lookup[selected_display]
 
-    # ----------------------------------------------------
-    # Versions
-    # ----------------------------------------------------
+        message_lookup = {}
 
-    version_lookup = {}
+        for message in selected_business.messages:
 
-    for version in selected_message.versions:
+            display = f"{message.message_id} ({len(message.versions)} versions)"
 
-        version_lookup[version.version] = version
+            message_lookup[display] = message
 
-    selected_version = st.selectbox(
-        "Version",
-        list(version_lookup.keys()),
-    )
+        with col2:
 
-    message_version = version_lookup[selected_version]
+            selected_message_display = st.selectbox(
+                "Message",
+                list(message_lookup.keys()),
+            )
 
-    st.divider()
+        selected_message = message_lookup[selected_message_display]
+
+        version_lookup = {}
+
+        for version in selected_message.versions:
+
+            version_lookup[version.version] = version
+
+        with col3:
+
+            selected_version = st.selectbox(
+                "Version",
+                list(version_lookup.keys()),
+            )
+
+        message_version = version_lookup[selected_version]
+
+    st.write("")
 
     # ----------------------------------------------------
     # Message Information
     # ----------------------------------------------------
 
-    st.subheader("Message Information")
+    with st.container(border=True):
 
-    col1, col2 = st.columns(2)
+        st.markdown("##### Message Information")
 
-    with col1:
+        st.write("")
 
-        st.write("**Business Area**")
-        st.write(business_service.get_name(selected_business.code))
+        col1, col2 = st.columns(2)
 
-        st.write("**Message ID**")
-        st.write(selected_message.message_id)
+        with col1:
 
-    with col2:
+            st.caption("Business Area")
+            st.write(business_service.get_name(selected_business.code))
 
-        st.write("**Version**")
-        st.write(message_version.version)
+            st.caption("Message ID")
+            st.write(selected_message.message_id)
 
-        st.write("**Source**")
-        st.write(message_version.xsd.source)
+        with col2:
 
-    st.divider()
+            st.caption("Version")
+            st.write(message_version.version)
+
+            st.caption("Source")
+            st.write(message_version.xsd.source)
+
+    st.write("")
 
     # ----------------------------------------------------
     # Message Assets
     # ----------------------------------------------------
 
-    st.subheader("Message Assets")
+    with st.container(border=True):
 
-    assets = asset_service.get_assets(message_version)
+        st.markdown("##### Message Assets")
 
-    for asset in assets:
+        st.write("")
 
-        col1, col2, col3 = st.columns([2, 2, 2])
+        assets = asset_service.get_assets(message_version)
 
-        with col1:
-            st.write(asset["name"])
+        if not assets:
 
-        with col2:
-            st.write(asset["status"])
+            st.caption("No assets recorded for this version.")
 
-        with col3:
-            st.write(asset["source"])
+        else:
+
+            for asset in assets:
+
+                col1, col2, col3 = st.columns([2, 2, 2])
+
+                with col1:
+                    st.write(asset["name"])
+
+                with col2:
+                    st.write(asset["status"])
+
+                with col3:
+                    st.write(asset["source"])
