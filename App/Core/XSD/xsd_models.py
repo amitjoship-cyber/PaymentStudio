@@ -189,6 +189,17 @@ class XSDSimpleContent:
         default_factory=list,
     )
 
+    #
+    # base_type is the raw XSD type-name string (e.g.
+    # "ActiveOrHistoricCurrencyAndAmount_SimpleType"). The resolver
+    # populates this with the actual XSDSimpleType object so value
+    # generation can read its facets (fractionDigits, minInclusive,
+    # etc.) the same way it does for any other element - structurally,
+    # not by hardcoding the type or field name.
+    #
+
+    resolved_base_type: object | None = None
+
 
 # ---------------------------------------------------------
 # Complex Type

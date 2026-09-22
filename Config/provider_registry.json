@@ -16,6 +16,11 @@
       "enabled": true
     },
     {
+      "name": "address",
+      "class": "AddressProvider",
+      "enabled": true
+    },
+    {
       "name": "name",
       "class": "NameProvider",
       "enabled": true

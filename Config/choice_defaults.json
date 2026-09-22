@@ -1,0 +1,7 @@
+{
+  "_comment": "Milestone A (ADR-012 compliance). Keys are a choice group's own option element names, sorted alphabetically and joined with '|' - the stable XML contract ADR-012 requires. This makes the default independent of the enclosing complexType's internal name, which is the part that actually changes between ISO 20022 versions (e.g. Party38Choice in pacs.008.001.08 vs Party52Choice in pacs.008.001.14 both wrap OrgId/PrvtId). Consulted only when no type-name-keyed entry in choice_rules.json matches for this element/country - those entries remain for genuine business-rule overrides (e.g. AccountIdentification4Choice's country-specific IBAN-vs-Other logic, which stays out of this table on purpose - see choice_service.py).",
+
+  "Cd|Prtry": "Cd",
+  "OrgId|PrvtId": "PrvtId",
+  "Dt|DtTm": "Dt"
+}

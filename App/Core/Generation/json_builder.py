@@ -24,7 +24,7 @@ class JsonBuilder:
         )
 
         data = {
-            root.tag: self._element_to_dict(
+            self._local_name(root.tag): self._element_to_dict(
                 root,
             )
         }
@@ -36,21 +36,58 @@ class JsonBuilder:
 
     # --------------------------------------------------
 
+    @staticmethod
+    def _local_name(
+        tag,
+    ):
+
+        #
+        # ElementTree returns tags as "{namespace-uri}LocalName".
+        # Strip the namespace so JSON keys match the ISO 20022
+        # element names (MsgId, not {urn:iso:...}MsgId).
+        #
+
+        if "}" in tag:
+
+            return tag.split("}", 1)[1]
+
+        return tag
+
+    # --------------------------------------------------
+
     def _element_to_dict(
         self,
         element,
     ):
+
+        attributes = {
+            f"@{self._local_name(name)}": value
+            for name, value in element.attrib.items()
+        }
 
         #
         # Leaf element
         #
         if len(element) == 0:
 
-            return element.text or ""
+            text = element.text or ""
 
-        result = {}
+            if attributes:
+
+                return {
+                    **attributes,
+                    "#text": text,
+                }
+
+            return text
+
+        result = dict(attributes)
 
         for child in element:
+
+            tag = self._local_name(
+                child.tag,
+            )
 
             value = self._element_to_dict(
                 child,
@@ -59,23 +96,23 @@ class JsonBuilder:
             #
             # Handle repeated elements
             #
-            if child.tag in result:
+            if tag in result:
 
                 if not isinstance(
-                    result[child.tag],
+                    result[tag],
                     list,
                 ):
 
-                    result[child.tag] = [
-                        result[child.tag],
+                    result[tag] = [
+                        result[tag],
                     ]
 
-                result[child.tag].append(
+                result[tag].append(
                     value,
                 )
 
             else:
 
-                result[child.tag] = value
+                result[tag] = value
 
         return result

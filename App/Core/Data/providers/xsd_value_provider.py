@@ -7,6 +7,8 @@ import re
 
 from decimal import Decimal
 
+from App.Core.Data.providers.currency_provider import CurrencyProvider
+
 
 class XSDValueProvider:
 
@@ -53,6 +55,64 @@ class XSDValueProvider:
         self,
         element,
         context,
+    ):
+
+        xsd_type = element.resolved_type
+
+        if xsd_type is None:
+            return None
+
+        simple_content = getattr(
+            xsd_type,
+            "simple_content",
+            None,
+        )
+
+        scalar_value = self._scalar_value(
+            element,
+        )
+
+        if scalar_value is None:
+            return None
+
+        #
+        # A simpleContent type may carry attributes (e.g. "Ccy" on
+        # ActiveOrHistoricCurrencyAndAmount). This is detected purely
+        # structurally - any element resolving to a type with
+        # simpleContent + attributes gets the same treatment,
+        # regardless of the element's own tag name or which ISO
+        # message/version it belongs to.
+        #
+
+        if simple_content is not None and simple_content.attributes:
+
+            attributes = {}
+
+            for attribute in simple_content.attributes:
+
+                attribute_value = self._attribute_value(
+                    attribute,
+                    context,
+                )
+
+                if attribute_value is not None:
+
+                    attributes[attribute.name] = attribute_value
+
+            if attributes:
+
+                return {
+                    "value": scalar_value,
+                    "attributes": attributes,
+                }
+
+        return scalar_value
+
+    # --------------------------------------------------
+
+    def _scalar_value(
+        self,
+        element,
     ):
 
         xsd_type = element.resolved_type
@@ -262,6 +322,120 @@ class XSDValueProvider:
         )
 
     # --------------------------------------------------
+    # Attribute values (e.g. "Ccy" on an amount type)
+    # --------------------------------------------------
+
+    def _attribute_value(
+        self,
+        attribute,
+        context,
+    ):
+        """
+        Generate a value for an XML attribute (not an element).
+
+        This is intentionally structural rather than name-based
+        wherever possible - it works for any XSD version because it
+        reads the attribute's own resolved type facets. The one
+        deliberate exception is "Ccy": every ISO 20022 currency-and-
+        amount type across every version and message family uses
+        that exact attribute name, so routing it through the
+        existing CurrencyProvider (which is country-aware, via
+        Config/country_profiles.json) gives a realistic, consistent
+        currency instead of an arbitrary structurally-valid one.
+        """
+
+        if attribute.name == "Ccy":
+
+            return CurrencyProvider().get(
+                attribute,
+                context,
+            )
+
+        resolved_type = attribute.resolved_type
+
+        if resolved_type is None:
+
+            #
+            # No resolvable type (e.g. a built-in xs:string used
+            # directly as the attribute's "type"). Fall back to a
+            # short, safe placeholder rather than nothing.
+            #
+
+            if attribute.use == "required":
+                return "X"
+
+            return None
+
+        type_chain = self._type_chain(
+            resolved_type,
+        )
+
+        value = self._enumeration_value(
+            type_chain,
+        )
+
+        if value is not None:
+            return value
+
+        pattern = self._first_constraint(
+            type_chain,
+            "pattern",
+        )
+
+        if pattern:
+
+            value = self._pattern_value(
+                pattern,
+                attribute,
+            )
+
+            if value is not None:
+                return value
+
+        base = self._base_name(
+            type_chain,
+        )
+
+        if base in (
+            "xs:decimal",
+            "decimal",
+        ):
+            return self._decimal_value(
+                type_chain,
+            )
+
+        if base in (
+            "xs:integer",
+            "xs:int",
+            "xs:long",
+            "xs:short",
+            "xs:byte",
+            "xs:nonNegativeInteger",
+            "xs:positiveInteger",
+            "integer",
+            "int",
+            "long",
+            "short",
+            "byte",
+            "nonNegativeInteger",
+            "positiveInteger",
+        ):
+            return self._integer_value(
+                type_chain,
+                base,
+            )
+
+        if base in (
+            "xs:boolean",
+            "boolean",
+        ):
+            return "true"
+
+        return self._text_value(
+            type_chain,
+        )
+
+    # --------------------------------------------------
 
     @staticmethod
     def _type_chain(
@@ -294,6 +468,36 @@ class XSDValueProvider:
             chain.append(
                 current,
             )
+
+            #
+            # A complexType with simpleContent (e.g.
+            # ActiveOrHistoricCurrencyAndAmount) carries its value
+            # restriction on simple_content.resolved_base_type, not
+            # on a "base" attribute of its own. Follow that link so
+            # facets like fractionDigits/minInclusive are found the
+            # same way for any currency-and-amount-shaped type,
+            # regardless of its name or ISO version.
+            #
+
+            simple_content = getattr(
+                current,
+                "simple_content",
+                None,
+            )
+
+            if simple_content is not None:
+
+                next_type = getattr(
+                    simple_content,
+                    "resolved_base_type",
+                    None,
+                )
+
+                if next_type is None:
+                    break
+
+                current = next_type
+                continue
 
             base = getattr(
                 current,

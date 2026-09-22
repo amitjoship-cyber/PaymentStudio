@@ -281,6 +281,9 @@ class XMLBuilder:
                 complex_type.name,
                 context.country,
                 strategy,
+                option_names=[
+                    option.name for option in group
+                ],
             )
 
             if not selected_name:

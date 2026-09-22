@@ -52,7 +52,93 @@ class XSDResolver:
                         simple_types,
                     )
 
+            # --------------------------------------------------
+            # Resolve simpleContent base type and its attributes
+            #
+            # (e.g. ActiveOrHistoricCurrencyAndAmount: text value
+            # restricted by ..._SimpleType, plus a Ccy attribute.)
+            # --------------------------------------------------
+
+            if complex_type.simple_content is not None:
+
+                self._resolve_simple_content(
+                    complex_type.simple_content,
+                    complex_types,
+                    simple_types,
+                )
+
+            # --------------------------------------------------
+            # Resolve attributes declared directly on the type
+            # --------------------------------------------------
+
+            for attribute in complex_type.attributes:
+
+                self._resolve_attribute(
+                    attribute,
+                    complex_types,
+                    simple_types,
+                )
+
         return self.schema
+
+    # ------------------------------------------------------
+    # Resolve simpleContent
+    # ------------------------------------------------------
+
+    def _resolve_simple_content(
+        self,
+        simple_content,
+        complex_types,
+        simple_types,
+    ):
+
+        base_name = simple_content.base_type
+
+        if base_name:
+
+            local_name = (
+                base_name.split(":", 1)[1] if ":" in base_name else base_name
+            )
+
+            simple_content.resolved_base_type = simple_types.get(
+                local_name,
+            ) or complex_types.get(
+                local_name,
+            )
+
+        for attribute in simple_content.attributes:
+
+            self._resolve_attribute(
+                attribute,
+                complex_types,
+                simple_types,
+            )
+
+    # ------------------------------------------------------
+    # Resolve one attribute
+    # ------------------------------------------------------
+
+    def _resolve_attribute(
+        self,
+        attribute,
+        complex_types,
+        simple_types,
+    ):
+
+        type_name = attribute.type_name
+
+        if not type_name:
+            return
+
+        local_name = (
+            type_name.split(":", 1)[1] if ":" in type_name else type_name
+        )
+
+        attribute.resolved_type = simple_types.get(
+            local_name,
+        ) or complex_types.get(
+            local_name,
+        )
 
     # ------------------------------------------------------
     # Resolve one element
