@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Ensure the PaymentStudio project root is available for imports
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import streamlit as st
 
 from App.UI.theme import load_theme
@@ -10,7 +18,7 @@ def main():
 
     st.set_page_config(
         page_title="Payment Studio",
-        page_icon="🏦",
+        page_icon="💳",
         layout="wide",
     )
 
@@ -21,11 +29,8 @@ def main():
     page = st.session_state.get("page", "dashboard")
 
     if page == "generate":
-
         render_generator()
-
     else:
-
         render_dashboard()
 
 
