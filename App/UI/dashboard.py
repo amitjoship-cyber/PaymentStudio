@@ -7,7 +7,6 @@ import streamlit as st
 
 from App.Core.Repository.repository_service import RepositoryService
 from App.Core.Repository.business_area_service import BusinessAreaService
-from App.Core.Repository.asset_service import AssetService
 
 
 def render_dashboard():
@@ -22,7 +21,6 @@ def render_dashboard():
 
         service = RepositoryService()
         business_service = BusinessAreaService()
-        asset_service = AssetService()
 
         stats = service.statistics()
 
@@ -165,23 +163,40 @@ def render_dashboard():
 
         st.write("")
 
-        assets = asset_service.get_assets(message_version)
+        xsd_file = message_version.xsd
 
-        if not assets:
+        xsd_available = xsd_file is not None and xsd_file.path.exists()
 
-            st.caption("No assets recorded for this version.")
+        col1, col2, col3 = st.columns([2, 2, 2])
 
-        else:
+        with col1:
+            st.write("XSD")
 
-            for asset in assets:
+        with col2:
+            st.write("Available" if xsd_available else "Missing")
 
-                col1, col2, col3 = st.columns([2, 2, 2])
+        with col3:
 
-                with col1:
-                    st.write(asset["name"])
+            if xsd_available:
 
-                with col2:
-                    st.write(asset["status"])
+                with open(xsd_file.path, "rb") as f:
 
-                with col3:
-                    st.write(asset["source"])
+                    st.download_button(
+                        "⬇ Download",
+                        data=f.read(),
+                        file_name=xsd_file.file_name,
+                        mime="application/xml",
+                        use_container_width=True,
+                        key=f"dashboard_download_xsd_{xsd_file.path}",
+                    )
+
+        #
+        # MDR is not yet linked to individual message versions - see
+        # ways-of-working notes. Once that mapping exists, add a row
+        # here the same way as XSD above.
+        #
+
+        st.caption(
+            "MDR documents aren't linked to individual message "
+            "versions yet - coming soon."
+        )

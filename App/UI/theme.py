@@ -90,8 +90,14 @@ def load_theme():
             padding: var(--ps-space-1);
         }
 
-        /* Buttons */
-        .stButton button {
+        /* Buttons - covers both st.button (.stButton) and
+           st.download_button (.stDownloadButton), which Streamlit
+           renders as separate component wrappers. Previously only
+           .stButton was styled, so every download button rendered
+           with bare default Streamlit chrome against this dark
+           theme - which read as washed out / low contrast. */
+        .stButton button,
+        .stDownloadButton button {
             border-radius: 8px !important;
             font-weight: 600 !important;
             font-size: 0.92rem !important;
@@ -99,20 +105,25 @@ def load_theme():
             border: 1px solid var(--ps-border) !important;
             transition: all 0.15s ease;
         }
-        .stButton button[kind="primary"] {
+        .stButton button[kind="primary"],
+        .stDownloadButton button[kind="primary"] {
             background: var(--ps-accent) !important;
             border: 1px solid var(--ps-accent) !important;
             box-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
-        .stButton button[kind="primary"]:hover {
+        .stButton button[kind="primary"]:hover,
+        .stDownloadButton button[kind="primary"]:hover {
             background: #2563EB !important;
             border-color: #2563EB !important;
         }
-        .stButton button[kind="secondary"] {
-            background: transparent !important;
-            color: var(--ps-text-muted) !important;
+        .stButton button[kind="secondary"],
+        .stDownloadButton button[kind="secondary"] {
+            background: var(--ps-surface-raised) !important;
+            color: var(--ps-text) !important;
+            border: 1px solid var(--ps-border) !important;
         }
-        .stButton button[kind="secondary"]:hover {
+        .stButton button[kind="secondary"]:hover,
+        .stDownloadButton button[kind="secondary"]:hover {
             border-color: var(--ps-accent) !important;
             color: var(--ps-text) !important;
         }
