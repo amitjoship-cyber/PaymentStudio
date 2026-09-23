@@ -11,8 +11,9 @@ class ProjectPaths:
 
     #
     # The raw ISO 20022 asset bundle (XSDs, MDR, catalogues) is kept
-    # OUTSIDE the git repository on purpose - it is large (~250MB) and
-    # is vendor/reference data, not source code.
+    # OUTSIDE the git repository on purpose when developing locally -
+    # it is large (~250MB) and is vendor/reference data, not source
+    # code.
     #
     # Location resolution order:
     #   1. PAYMENT_STUDIO_ASSETS environment variable, if set
@@ -21,6 +22,11 @@ class ProjectPaths:
     #      project's root folder (e.g. project at C:\PaymentStudio ->
     #      assets default to C:\PaymentStudioAssets). This preserves
     #      the original convention without hardcoding a drive letter.
+    #   3. A "PaymentStudioAssets" folder EMBEDDED inside this
+    #      project's root (i.e. committed to the repo). Deployment
+    #      targets like Streamlit Community Cloud only clone a
+    #      single repo, so there is no sibling folder available -
+    #      this fallback lets the same code run there unchanged.
     #
 
     @staticmethod
@@ -42,7 +48,13 @@ class ProjectPaths:
 
             return Path(override)
 
-        return ProjectPaths.root().parent / "PaymentStudioAssets"
+        sibling = ProjectPaths.root().parent / "PaymentStudioAssets"
+
+        if sibling.is_dir():
+
+            return sibling
+
+        return ProjectPaths.root() / "PaymentStudioAssets"
 
     @staticmethod
     def workspace() -> Path:
