@@ -1,0 +1,55 @@
+name: Daily Scrape ISO20022 Message Schemas
+
+on:
+  schedule:
+    - cron: '30 14 * * *' # 8:30 AM CST (14:30 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Google Chrome
+      run: |
+        sudo apt update
+        sudo apt install -y google-chrome-stable
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Create downloads folder
+      run: mkdir -p downloads
+
+    - name: Run the Python script
+      run: python scraper.py
+
+    - name: Delete downloads folder
+      run: rm -rf downloads
+
+    - name: Commit and push changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Automated daily update"
+          git push
+        else
+          echo "No changes to commit"
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
